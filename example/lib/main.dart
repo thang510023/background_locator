@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:isolate';
 import 'dart:ui';
 
@@ -26,8 +25,8 @@ class _MyAppState extends State<MyApp> {
   ReceivePort port = ReceivePort();
 
   String logStr = '';
-  bool isRunning;
-  LocationDto lastLocation;
+  bool? isRunning;
+  LocationDto? lastLocation;
 
   @override
   void initState() {
@@ -56,7 +55,7 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 
-  Future<void> updateUI(LocationDto data) async {
+  Future<void> updateUI(LocationDto? data) async {
     final log = await FileManager.readLogFile();
 
     await _updateNotificationText(data);
@@ -69,7 +68,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  Future<void> _updateNotificationText(LocationDto data) async {
+  Future<void> _updateNotificationText(LocationDto? data) async {
     if (data == null) {
       return;
     }
@@ -126,7 +125,7 @@ class _MyAppState extends State<MyApp> {
     );
     String msgStatus = "-";
     if (isRunning != null) {
-      if (isRunning) {
+      if (isRunning == true) {
         msgStatus = 'Is running';
       } else {
         msgStatus = 'Is not running';
@@ -193,13 +192,10 @@ class _MyAppState extends State<MyApp> {
         } else {
           return false;
         }
-        break;
       case PermissionStatus.granted:
         return true;
-        break;
       default:
         return false;
-        break;
     }
   }
 
