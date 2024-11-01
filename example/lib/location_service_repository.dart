@@ -55,9 +55,8 @@ class LocationServiceRepository {
     print('$_count location in dart: ${locationDto.toString()}');
     await setLogPosition(_count, locationDto);
     final SendPort? send = IsolateNameServer.lookupPortByName(isolateName);
-    send?.send(locationDto);
+    send?.send(locationDto.toJson());
     _count++;
-
   }
 
   static Future<void> setLogLabel(String label) async {
@@ -78,16 +77,10 @@ class LocationServiceRepository {
   }
 
   static String formatDateLog(DateTime date) {
-    return date.hour.toString() +
-        ":" +
-        date.minute.toString() +
-        ":" +
-        date.second.toString();
+    return date.hour.toString() + ":" + date.minute.toString() + ":" + date.second.toString();
   }
 
   static String formatLog(LocationDto locationDto) {
-    return dp(locationDto.latitude, 4).toString() +
-        " " +
-        dp(locationDto.longitude, 4).toString();
+    return dp(locationDto.latitude, 4).toString() + " " + dp(locationDto.longitude, 4).toString();
   }
 }
